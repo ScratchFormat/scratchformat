@@ -174,7 +174,6 @@ function parse(text) {
 			regex += endBracket;
 		}
 
-		console.log(regex);
 		regex = new RegExp(regex, "gm");
 		text = text.replace(regex, tags[t].formatter("$2", "$3"));
 	}
