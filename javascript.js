@@ -62,8 +62,12 @@ var tags = [
 ]
 
 // Firstly, initialize the formatter, and its icons
-window.onload = function()  {
-	document.getElementsByName("content")[0].placeholder = "Click here to activate ScratchFormat";
+// This is a 1 second timeout for page load, since I am
+// too lazy to figure out real page load times
+setTimeout(function() {
+	var textareaFinder = "[name=compose-comment],[name=content]";
+
+	document.querySelectorAll(textareaFinder)[0].placeholder = "Click here to activate ScratchFormat";
 
 	formatter = document.createElement("div");
 	formatter.id = "formatter";
@@ -111,8 +115,9 @@ window.onload = function()  {
 
 	// Move formatter if user clicks on textarea.
 	document.body.onclick = function(event) {
-		if (event.target.name == "content") {
+		if (event.target.name == "content" || event.target.name == "compose-comment") {
 			event.target.parentElement.prepend(formatter);
+			formatter.style.width = event.target.style.width;
 		}
 	}
 
@@ -120,13 +125,13 @@ window.onload = function()  {
 	setInterval(function() {
 		format();
 	}, 300);
-}
+}, 1000);
 
 var oldComments = 0;
 function format() {
 	// Quit if we already formatted those comments.
 	// Checks for last vs new length.
-	var comments = document.getElementsByClassName("content");
+	var comments = document.querySelectorAll(".content, .emoji-text");
 	if (oldComments == comments.length) {
 		return;
 	}
@@ -135,12 +140,16 @@ function format() {
 
 	for (var c = 0; c < comments.length; c++) {
 		comments[c].style.whiteSpace = "pre";
+		comments[c].style.marginLeft = "5px";
 		comments[c].innerHTML = parse(comments[c].innerHTML);
 	}
 }
 
 // Custom regex parser. Easy to maintain.
 function parse(text) {
+	// Note that the new scratchformat standard is [],
+	// and the () is outdated, and a bit harder to type.
+	// But, we will detect both for historical reasons
 	var startBracket = "[\\(|\\[]";
 	var endBracket = "[\\)|\\]]";
 
@@ -155,7 +164,8 @@ function parse(text) {
 
 		// If just 1 tag (Ex [br])
 		if (tags[t].fillers.length > 1) {
-			regex += "(.*)";
+			// Regex statement to parse anything but (), []
+			regex += "([^\\)\\]\\[\\(]*)";
 
 			// Second part of tag
 			regex += startBracket;
@@ -164,6 +174,7 @@ function parse(text) {
 			regex += endBracket;
 		}
 
+		console.log(regex);
 		regex = new RegExp(regex, "gm");
 		text = text.replace(regex, tags[t].formatter("$2", "$3"));
 	}
