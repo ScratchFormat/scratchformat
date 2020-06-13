@@ -1,0 +1,19 @@
+/* Code from Scratch 2.0 style interface */
+#formatter {
+	border: 1px solid rgb(169, 169, 169);
+	box-shadow: inset 0 1px 1px #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 500px;
+
+	/* Size of icon */
+	height: 24px;
+}
+
+/* Formatter icons */
+#formatter img {
+	height: 24px;
+}
+#formatter img:hover {
+	background: #e6e6e6;
+}

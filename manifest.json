@@ -1,0 +1,24 @@
+{
+  "name": "ScratchFormat",
+  "description": "Rich text editing in Scratch.",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://scratch.mit.edu/users*","https://scratch.mit.edu/studios*", "https://scratch.mit.edu/projects*"],
+      "js": ["javascript.js"],
+      "css": ["style.css"]
+    }
+  ],
+  "browser_action": {
+    "default_title": "ScratchFormat",
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
+
+  },
+  "manifest_version": 2,
+  "short_name": "SF"
+}
