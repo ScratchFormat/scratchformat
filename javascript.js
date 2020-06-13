@@ -139,7 +139,7 @@ function format() {
 	oldComments = comments.length
 
 	for (var c = 0; c < comments.length; c++) {
-		comments[c].style.whiteSpace = "pre";
+		comments[c].style.whiteSpace = "pre-line";
 		comments[c].style.marginLeft = "5px";
 		comments[c].innerHTML = parse(comments[c].innerHTML);
 	}
