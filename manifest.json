@@ -5,10 +5,11 @@
   "content_scripts": [
     {
       "matches": ["https://scratch.mit.edu/users*","https://scratch.mit.edu/studios*", "https://scratch.mit.edu/projects*"],
-      "js": ["javascript.js"],
+      "js": ["loader.js"],
       "css": ["style.css"]
     }
   ],
+  "web_accessible_resources": ["smod.js", "javascript.js"],
   "browser_action": {
     "default_title": "ScratchFormat",
     "default_icon": "logo.png",

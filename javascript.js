@@ -4,6 +4,11 @@ var formatter;
 // Everything is customizable here.
 // (local images don't work yet, but who cares.
 // this is the internet.)
+var version = 3;
+if (document.body.children[0].id == "pagewrapper") {
+	version = 2;
+}
+
 var tags = [
 	{
 		"name": "bold",
@@ -92,7 +97,10 @@ setTimeout(function() {
 		if (tags[t].help) {
 			icon.style.float = "right";
 			icon.onclick = function() {
-				window.open("https://github.com/ScratchFormat/ScratchFormat2/issues");
+				smod.dialogText("ScratchFormat Help", `
+<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a>
+If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>
+				`, version);
 			}
 
 			formatter.appendChild(icon);
