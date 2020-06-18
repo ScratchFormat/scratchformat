@@ -50,7 +50,7 @@ var tags = [
 		"name": "link",
 		"tag": "link",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/link.svg",
-		"fillers": ["[link=https://example.com", "]Link[/link]"],
+		"fillers": ["[link=https://example.com]", "[/link]"],
 		"formatter": function(part1, part2) {
 			return "<a href='" + part1 + "'  target='_newtab'>" + part2 + "</a>";
 		}
@@ -130,6 +130,10 @@ setTimeout(function() {
 				textarea.selectionEnd
 			);
 
+			if (selection.length == 0) {
+				selection = "text";
+			}
+
 			// Generate new text, if just 1 filler, ex [br], don't attempt
 			// to use second part.
 			var newText = textarea.value.substring(0, textarea.selectionStart)
@@ -179,7 +183,7 @@ function format() {
 			comments[c].style.marginLeft = "3px";
 		}
 
-		comments[c].innerHTML = parse(comments[c].innerText);
+		comments[c].innerHTML = parse(comments[c].innerHTML);
 	}
 }
 
@@ -205,7 +209,8 @@ function parse(text) {
 
 		// If just 1 tag (Ex [br])
 		if (tags[t].fillers.length > 1) {
-			regex += "(.*)";
+			// Lazy matching (?)
+			regex += "(.*?)";
 
 			// Second part of tag
 			regex += startBracket;
