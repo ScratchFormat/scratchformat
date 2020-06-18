@@ -58,6 +58,12 @@ var tags = [
 		"formatter": function(part1, part2) {
 			return "<i>Yes? No. Or is it?</i>";
 		}
+	},
+	{
+		"name": "help",
+		"help": true,
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Development/bug-line.svg",
+		"ignore": true
 	}
 ]
 
@@ -67,7 +73,10 @@ var tags = [
 setTimeout(function() {
 	var textareaFinder = "[name=compose-comment],[name=content]";
 
-	document.querySelectorAll(textareaFinder)[0].placeholder = "Click here to activate ScratchFormat";
+	var findFirst = document.querySelectorAll(textareaFinder);
+	if (findFirst.length > 0) {
+		findFirst[0].placeholder = "Click here to activate ScratchFormat";
+	}
 
 	formatter = document.createElement("div");
 	formatter.id = "formatter";
@@ -78,6 +87,18 @@ setTimeout(function() {
 
 		var icon = document.createElement("img");
 		icon.src = tags[t].src;
+
+		// Help icon
+		if (tags[t].help) {
+			icon.style.float = "right";
+			icon.onclick = function() {
+				window.open("https://github.com/ScratchFormat/ScratchFormat2/issues");
+			}
+
+			formatter.appendChild(icon);
+			continue;
+		}
+
 		icon.fillers = tags[t].fillers;
 
 		// This may look janky, but with Chrome extensions,
@@ -136,12 +157,15 @@ function format() {
 		return;
 	}
 
-	oldComments = comments.length
+	oldComments = comments.length;
 
 	for (var c = 0; c < comments.length; c++) {
 		comments[c].style.whiteSpace = "pre-line";
-		comments[c].style.marginLeft = "5px";
-		comments[c].innerHTML = parse(comments[c].innerHTML);
+		if (comments[c].className == "emoji-text") {
+			comments[c].style.marginLeft = "5px";
+		}
+
+		comments[c].innerHTML = parse(comments[c].innerText);
 	}
 }
 
@@ -154,6 +178,9 @@ function parse(text) {
 	var endBracket = "[\\)|\\]]";
 
 	for (var t = 0; t < tags.length; t++) {
+		if (tags[t].ignore) {
+			continue;
+		}
 
 		// First part of tag
 		var regex = "";
@@ -164,8 +191,7 @@ function parse(text) {
 
 		// If just 1 tag (Ex [br])
 		if (tags[t].fillers.length > 1) {
-			// Regex statement to parse anything but (), []
-			regex += "([^\\)\\]\\[\\(]*)";
+			regex += "(.*)";
 
 			// Second part of tag
 			regex += startBracket;
@@ -178,6 +204,7 @@ function parse(text) {
 		text = text.replace(regex, tags[t].formatter("$2", "$3"));
 	}
 
+	// Format trailing breaklines and spaces
 	text = text.replace(/^(\n| )+/gm, "");
 
 	return text;

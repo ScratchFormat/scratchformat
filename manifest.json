@@ -1,7 +1,7 @@
 {
   "name": "ScratchFormat",
   "description": "Rich text editing in Scratch.",
-  "version": "2.0",
+  "version": "20.0",
   "content_scripts": [
     {
       "matches": ["https://scratch.mit.edu/users*","https://scratch.mit.edu/studios*", "https://scratch.mit.edu/projects*"],
