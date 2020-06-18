@@ -1,3 +1,4 @@
+// Loads javascript onto page
 {var s = document.createElement('script');
 s.src = chrome.extension.getURL('smod.js');
 (document.head||document.documentElement).appendChild(s);}

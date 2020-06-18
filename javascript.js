@@ -50,7 +50,7 @@ var tags = [
 		"name": "link",
 		"tag": "link",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/link.svg",
-		"fillers": ["[link=", "]Link[/link]"],
+		"fillers": ["[link=https://example.com", "]Link[/link]"],
 		"formatter": function(part1, part2) {
 			return "<a href='" + part1 + "'  target='_newtab'>" + part2 + "</a>";
 		}
@@ -78,15 +78,20 @@ var tags = [
 setTimeout(function() {
 	var textareaFinder = "[name=compose-comment],[name=content]";
 
+	// Helpful first textarea message
 	var findFirst = document.querySelectorAll(textareaFinder);
 	if (findFirst.length > 0) {
 		findFirst[0].placeholder = "Click here to activate ScratchFormat";
+	} else {
+		// Kill all if there are no textareas
+		return;
 	}
 
 	formatter = document.createElement("div");
 	formatter.id = "formatter";
 	for (var t = 0; t < tags.length; t++) {
 		if (tags[t].dontshow) {
+			// Basically, skip to next part
 			continue;
 		}
 
@@ -97,9 +102,10 @@ setTimeout(function() {
 		if (tags[t].help) {
 			icon.style.float = "right";
 			icon.onclick = function() {
+				// Popup message HTML got a bit out of hand here
 				smod.dialogText("ScratchFormat Help", `
-<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a>
-If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>
+					<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a>
+					If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>
 				`, version);
 			}
 
@@ -146,7 +152,7 @@ If you do not own a Github account, simply comment on my profile <a href="https:
 	document.body.onclick = function(event) {
 		if (event.target.name == "content" || event.target.name == "compose-comment") {
 			event.target.parentElement.prepend(formatter);
-			formatter.style.width = event.target.style.width;
+			formatter.style.width = event.target.offsetWidth + "px";
 		}
 	}
 
@@ -170,7 +176,7 @@ function format() {
 	for (var c = 0; c < comments.length; c++) {
 		comments[c].style.whiteSpace = "pre-line";
 		if (comments[c].className == "emoji-text") {
-			comments[c].style.marginLeft = "5px";
+			comments[c].style.marginLeft = "3px";
 		}
 
 		comments[c].innerHTML = parse(comments[c].innerText);
@@ -194,7 +200,7 @@ function parse(text) {
 		var regex = "";
 		regex += startBracket;
 		regex += tags[t].tag;
-		regex += "(=(.*))*";
+		regex += "[=]*([^\\]\\[\\)\\(]*)";
 		regex += endBracket;
 
 		// If just 1 tag (Ex [br])
@@ -207,9 +213,9 @@ function parse(text) {
 			regex += tags[t].tag;
 			regex += endBracket;
 		}
-
+		console.log(regex);
 		regex = new RegExp(regex, "gm");
-		text = text.replace(regex, tags[t].formatter("$2", "$3"));
+		text = text.replace(regex, tags[t].formatter("$1", "$2"));
 	}
 
 	// Format trailing breaklines and spaces
