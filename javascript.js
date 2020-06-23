@@ -43,6 +43,15 @@ sf.tags = [
 		}
 	},
 	{
+		"name": "code",
+		"tag": "code",
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
+		"fillers": ["[code]", "[/code]"],
+		"formatter": function(part1, part2) {
+			return "<code>" + part2 + "</code>";
+		}
+	},
+	{
 		"name": "color",
 		"tag": "color",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/font-color.svg",
@@ -243,8 +252,8 @@ sf.parse = function(text) {
 			regex += sf.tags[t].tag;
 			regex += endBracket;
 		}
-
-		regex = new RegExp(regex, "gm");
+		
+		regex = new RegExp(regex, "gms");
 		text = text.replace(regex, sf.tags[t].formatter("$1", "$2"));
 	}
 

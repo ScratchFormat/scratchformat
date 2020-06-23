@@ -1,9 +1,9 @@
 // Loads javascript onto page
-// Dirty method.
-{var s = document.createElement('script');
-s.src = chrome.extension.getURL('smod.js');
-(document.head||document.documentElement).appendChild(s);}
+var scripts = ["smod.js", "javascript.js"];
 
-{var s = document.createElement('script');
-s.src = chrome.extension.getURL('javascript.js');
-(document.head||document.documentElement).appendChild(s);}
+for (var s = 0; s < scripts.length; s++) {
+	var script = document.createElement("script");
+	script.src = chrome.extension.getURL(scripts[s]);
+
+	document.head.appendChild(script);
+}
