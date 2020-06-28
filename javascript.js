@@ -244,7 +244,9 @@ sf.parse = function(text) {
 		// If just 1 tag (Ex [br])
 		if (sf.tags[t].fillers.length > 1) {
 			// Lazy matching (?)
-			regex += "(.*?)";
+			// Since we can't use the s flag in Firefox,
+			// This is an alternative that matches it using |
+			regex += "((.|\n*)*?)";
 
 			// Second part of tag
 			regex += startBracket;
