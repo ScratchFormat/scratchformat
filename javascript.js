@@ -252,8 +252,8 @@ sf.parse = function(text) {
 			regex += sf.tags[t].tag;
 			regex += endBracket;
 		}
-		
-		regex = new RegExp(regex, "gms");
+
+		regex = new RegExp(regex, "gm");
 		text = text.replace(regex, sf.tags[t].formatter("$1", "$2"));
 	}
 
