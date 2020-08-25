@@ -81,7 +81,7 @@ sf.tags = [
 	{
 		"name": "help",
 		"help": true,
-		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Development/bug-line.svg",
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/question-mark.svg",
 		"ignore": true
 	}
 ];
@@ -112,7 +112,7 @@ sf.init = function() {
 		icon.src = sf.tags[t].src;
 
 		// Help icon
-		if (sf.tags[t].help) {
+		if (sf.tags[t].help == true) {
 			icon.style.float = "right";
 			icon.onclick = function() {
 				// Popup message HTML got a bit out of hand here
@@ -179,6 +179,8 @@ sf.init = function() {
 			if (event.target.parentElement.children[0].id !== "formatter") {
 				event.target.parentElement.prepend(sf.formatter);
 				sf.formatter.style.width = event.target.offsetWidth + "px";
+				event.target.style.resize = "auto";
+
 			}
 		}
 	}
@@ -214,6 +216,13 @@ sf.format = function() {
 
 		comments[c].innerHTML = sf.parse(comments[c].innerHTML);
 	}
+}
+
+sf.parseMD = function(text) {
+	// Bold, then italics
+	text = text.replace(/\*\*(.*)\*\*/gm, "<b>$1</b>");
+	text = text.replace(/\*(.*)\*/gm, "<b>$1</b>");
+	return text;
 }
 
 // Custom regex SFML* parser. It parses differently than HTML. Instead
@@ -261,6 +270,8 @@ sf.parse = function(text) {
 
 	// Format trailing breaklines and spaces
 	text = text.replace(/^(\n| )+/gm, "");
+
+	text = sf.parseMD(text);
 
 	return text;
 }
