@@ -1,13 +1,11 @@
-// Copyleft Daniel C 2020
-// GNU General Public License v2.0
-
+// MIT License
 var smod = {
 	dialog2: function(title, element) {
 		openDialogue(element, {
 			title: gettext(title),
 
 			open: function(e, t) {
-				// Keeping for future reference
+				// Runs once popup is opened.
 			},
 
 			close: function(e, t) {
@@ -34,15 +32,16 @@ var smod = {
 		document.body.innerHTML += html;
 	},
 
-	dialogText: function(title, text, version) {
-		// A good way to check 2.0 vs 3.0 is
+	dialogText: function(obj) {
+		// Another good way to check 2.0 vs 3.0 is
 		// window["openDialogue"] == undefined
-		if (version == 3) {
-			this.dialog3(title, text);
-		} else {
+
+		if (document.body.children[0].id == "pagewrapper") {
 			var popupContent = document.createElement("div");
-			popupContent.innerHTML = text;
-			this.dialog2(title, popupContent);
+			popupContent.innerHTML = obj.text;
+			this.dialog2(obj.title, popupContent);
+		} else {
+			this.dialog3(obj.title, obj.text);
 		}
 	}
 }

@@ -75,7 +75,7 @@ sf.tags = [
 		"dontshow": true,
 		"fillers": ["[easteregg]"],
 		"formatter": function(part1, part2) {
-			return "<i>Yes? No. Or is it?</i>";
+			return "<a href='http://frypup.is-great.net/'>( ͡° ͜ʖ ͡°)</a>";
 		}
 	},
 	{
@@ -112,20 +112,15 @@ sf.init = function() {
 		icon.src = sf.tags[t].src;
 
 		// Help icon
-		if (sf.tags[t].help == true) {
+		if (sf.tags[t].help) {
 			icon.style.float = "right";
-			icon.onclick = function() {
+			icon.addEventListener("click", function() {
 				// Popup message HTML got a bit out of hand here
-				if (sf.version == 2) {
-					smod.dialogText(
-						"ScratchFormat Help",
-						`<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a> If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>`,
-						sf.version
-					);
-				} else {
-					prompt("Go here to report bugs:", "https://github.com/ScratchFormat/ScratchFormat2/issues");
-				}
-			}
+				smod.dialogText({
+					title: "ScratchFormat Help",
+					text: `<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a> If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>`
+				});
+			});
 
 			sf.formatter.appendChild(icon);
 			continue;
@@ -220,8 +215,8 @@ sf.format = function() {
 
 sf.parseMD = function(text) {
 	// Bold, then italics
-	text = text.replace(/\*\*(.*)\*\*/gm, "<b>$1</b>");
-	text = text.replace(/\*(.*)\*/gm, "<b>$1</b>");
+	text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+	text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
 	return text;
 }
 
