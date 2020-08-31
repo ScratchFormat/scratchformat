@@ -19,7 +19,7 @@ sf.tags = [
 		"name": "bold",
 		"tag": "b",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/bold.svg",
-		"fillers": ["[b]", "[/b]"],
+		"fillers": ["**", "**"],
 		"formatter": function(part1, part2) {
 			return "<b>" + part2 + "</b>";
 		}
@@ -28,7 +28,7 @@ sf.tags = [
 		"name": "italics",
 		"tag": "i",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/italic.svg",
-		"fillers": ["[i]", "[/i]"],
+		"fillers": ["*", "*"],
 		"formatter": function(part1, part2) {
 			return "<i>" + part2 + "</i>";
 		}
@@ -43,18 +43,9 @@ sf.tags = [
 		}
 	},
 	{
-		"name": "code",
-		"tag": "code",
-		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
-		"fillers": ["[code]", "[/code]"],
-		"formatter": function(part1, part2) {
-			return "<code>" + part2 + "</code>";
-		}
-	},
-	{
 		"name": "color",
 		"tag": "color",
-		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/font-color.svg",
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Design/paint-brush-line.svg",
 		"fillers": ["[color=red]", "[/color]"],
 		"formatter": function(part1, part2) {
 			return "<span style='color:" + part1 + "'>" + part2 + "</span>";
@@ -64,9 +55,18 @@ sf.tags = [
 		"name": "link",
 		"tag": "link",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/link.svg",
-		"fillers": ["[link=", "]Link[/link]"],
+		"fillers": ["[link=URLHERE]", "[/link]"],
 		"formatter": function(part1, part2) {
 			return "<a href='" + part1 + "'  target='_newtab'>" + part2 + "</a>";
+		}
+	},
+	{
+		"name": "code",
+		"tag": "code",
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
+		"fillers": ["[code]", "[/code]"],
+		"formatter": function(part1, part2) {
+			return "<code>" + part2 + "</code>";
 		}
 	},
 	{
@@ -110,6 +110,7 @@ sf.init = function() {
 
 		var icon = document.createElement("img");
 		icon.src = sf.tags[t].src;
+		icon.title = sf.tags[t].name;
 
 		// Help icon
 		if (sf.tags[t].help) {
@@ -125,14 +126,9 @@ sf.init = function() {
 			sf.formatter.appendChild(icon);
 			continue;
 		}
-
+		
+		// Set up code for each icon
 		icon.fillers = sf.tags[t].fillers;
-
-		// This may look janky, but with Chrome extensions,
-		// Everything is jank. Basically I have to set custom
-		// properties to the element in order to get data without
-		// having functions, which would require some "injection"
-		// garbage.
 		icon.onclick = function(event) {
 			var textarea = event.target.parentElement.parentElement.children[1];
 			var fillers = event.target.fillers;
@@ -217,6 +213,7 @@ sf.parseMD = function(text) {
 	// Bold, then italics
 	text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 	text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
+	text = text.replace(/(https:|http:|www\.)([^\"\>\<]*$)/gm, "<a href='$1$2'>$1$2</a>");
 	return text;
 }
 
