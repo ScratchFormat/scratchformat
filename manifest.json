@@ -4,7 +4,7 @@
   "version": "21.0",
   "content_scripts": [
     {
-      "matches": ["https://scratch.mit.edu/users*","https://scratch.mit.edu/studios*", "https://scratch.mit.edu/projects*"],
+      "matches": ["https://scratch.mit.edu/users*","https://scratch.mit.edu/studios*", "https://scratch.mit.edu/projects*", "https://scratch.mit.edu/messages*"],
       "js": ["loader.js"],
       "css": ["style.css"]
     }

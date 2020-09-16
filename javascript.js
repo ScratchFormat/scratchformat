@@ -126,7 +126,7 @@ sf.init = function() {
 			sf.formatter.appendChild(icon);
 			continue;
 		}
-		
+
 		// Set up code for each icon
 		icon.fillers = sf.tags[t].fillers;
 		icon.onclick = function(event) {
@@ -171,20 +171,29 @@ sf.init = function() {
 				event.target.parentElement.prepend(sf.formatter);
 				sf.formatter.style.width = event.target.offsetWidth + "px";
 				event.target.style.resize = "auto";
-
 			}
 		}
 	}
 
 	// Initial background formatting loop.
+	// This just checks for new comments
 	setInterval(function() {
 		sf.format();
 	}, 300);
 }
 
-// This is a 1 second timeout for page load, since I am
-// too lazy to figure out real page load times
-setTimeout(sf.init, 1000);
+// Simply a .5 second timer after page load. JS onload doesn't seem
+// to work very well.
+setTimeout(function() {
+	var messages = document.getElementsByClassName("comment-text");
+	if (messages.length == 0) {
+		sf.init();
+	} else {
+		for (var i = 0; i < messages.length; i++) {
+			messages[i].innerHTML = sf.parse(messages[i].innerHTML);
+		}
+	}
+}, 500);
 
 // Function to format comments that are not already
 // formatted
@@ -213,11 +222,17 @@ sf.parseMD = function(text) {
 	// Bold, then italics
 	text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 	text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
+
+	text = text.replace(/```((.|\n*)*?)```/gm, "<code>$1</code>");
+	text = text.replace(/`(.*?)`/g, "<code>$1</code>");
+
+	// Don't format links that already have a tag with them
 	text = text.replace(/(https:|http:|www\.)([^\"\>\<]*$)/gm, "<a href='$1$2'>$1$2</a>");
+
 	return text;
 }
 
-// Custom regex SFML* parser. It parses differently than HTML. Instead
+// Custom regex SFCode* parser. It parses differently than BBcode. Instead
 // Of replacing [b] with <b>, it it replaces both tags with
 // text between them. Therefore, "[b][b]Hello[/b][/b]" will not work.
 // It doesn't really matter though, and won't be changed unless it
