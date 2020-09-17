@@ -34,6 +34,15 @@ sf.tags = [
 		}
 	},
 	{
+		"name": "code",
+		"tag": "code",
+		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
+		"fillers": ["```", "```"],
+		"formatter": function(part1, part2) {
+			return "<code>" + part2 + "</code>";
+		}
+	},
+	{
 		"name": "underline",
 		"tag": "u",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/underline.svg",
@@ -58,15 +67,6 @@ sf.tags = [
 		"fillers": ["[link=URLHERE]", "[/link]"],
 		"formatter": function(part1, part2) {
 			return "<a href='" + part1 + "'  target='_newtab'>" + part2 + "</a>";
-		}
-	},
-	{
-		"name": "code",
-		"tag": "code",
-		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
-		"fillers": ["[code]", "[/code]"],
-		"formatter": function(part1, part2) {
-			return "<code>" + part2 + "</code>";
 		}
 	},
 	{
@@ -111,6 +111,12 @@ sf.init = function() {
 		var icon = document.createElement("img");
 		icon.src = sf.tags[t].src;
 		icon.title = sf.tags[t].name;
+
+		// Simply put a margin before underline because it separates
+		// Markdown options and SFCode
+		if (sf.tags[t].name == "underline") {
+			icon.style.marginLeft = "20px";
+		}
 
 		// Help icon
 		if (sf.tags[t].help) {
