@@ -175,6 +175,7 @@ sf.init = function() {
 			// A somewhat messy solution, but it is fine.
 			if (event.target.parentElement.children[0].id !== "formatter") {
 				event.target.parentElement.prepend(sf.formatter);
+				event.target.style.height = "250px";
 				sf.formatter.style.width = event.target.offsetWidth + "px";
 				event.target.style.resize = "auto";
 			}
@@ -282,7 +283,8 @@ sf.parse = function(text) {
 	}
 
 	// Format trailing breaklines and spaces
-	text = text.replace(/^(\n| )+/gm, "");
+	text = text.replace(/(\n)+^/m, ""); // Remove start newlines
+	text = text.trim("\n"); // Trim last newlines
 
 	text = sf.parseMD(text);
 
