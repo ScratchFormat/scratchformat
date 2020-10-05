@@ -283,7 +283,7 @@ sf.parse = function(text) {
 	}
 
 	// Format trailing breaklines and spaces
-	text = text.replace(/(\n)+^/m, ""); // Remove start newlines
+	text = text.replace(/^(\n| )+/gm, "");
 	text = text.trim("\n"); // Trim last newlines
 
 	text = sf.parseMD(text);
