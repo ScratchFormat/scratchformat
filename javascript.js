@@ -37,7 +37,7 @@ sf.tags = [
 		"name": "code",
 		"tag": "code",
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
-		"fillers": ["```", "```"],
+		"fillers": ["`", "`"],
 		"formatter": function(part1, part2) {
 			return "<code>" + part2 + "</code>";
 		}
@@ -57,12 +57,15 @@ sf.tags = [
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Design/paint-brush-line.svg",
 		"fillers": ["[color=red]", "[/color]"],
 		"formatter": function(part1, part2) {
+			part1 = part1.replace(/[^a-zA-Z0-9\#\(\)\,]/g, ""); // Strip chars for security
+			console.log(part1);
 			return "<span style='color:" + part1 + "'>" + part2 + "</span>";
 		}
 	},
 	{
 		"name": "link",
 		"tag": "link",
+		"dontshow": true,
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/link.svg",
 		"fillers": ["[link=URLHERE]", "[/link]"],
 		"formatter": function(part1, part2) {
@@ -75,7 +78,7 @@ sf.tags = [
 		"dontshow": true,
 		"fillers": ["[easteregg]"],
 		"formatter": function(part1, part2) {
-			return "<a href='http://frypup.is-great.net/'>( ͡° ͜ʖ ͡°)</a>";
+			return "( ͡° ͜ʖ ͡°)";
 		}
 	},
 	{
@@ -86,7 +89,7 @@ sf.tags = [
 	}
 ];
 
-// Firstly, initialize the formatter, and its icons.
+// First, initialize the formatter, and its icons.
 // This is executed on the next block
 sf.init = function() {
 	var textareaFinder = "[name=compose-comment],[name=content]";
@@ -190,7 +193,7 @@ sf.init = function() {
 }
 
 // Simply a .5 second timer after page load. JS onload doesn't seem
-// to work very well.
+// to work very well here.
 setTimeout(function() {
 	var messages = document.getElementsByClassName("comment-text");
 	if (messages.length == 0) {
