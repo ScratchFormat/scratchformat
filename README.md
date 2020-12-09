@@ -1,5 +1,5 @@
 # ScratchFormat
-Chrome/Chromium: https://chrome.google.com/webstore/detail/scratchformat/fklhbhcbpnkiifblkhoioddoadlknecl
+Chrome/Chromium: https://chrome.google.com/webstore/detail/scratchformat/fklhbhcbpnkiifblkhoioddoadlknecl  
 Firefox: https://addons.mozilla.org/en-US/firefox/addon/scratchformat/
 
 ScratchFormat is a browser extension created in 2017 to make Scratch comments  
@@ -13,12 +13,27 @@ to the older versions.
 Uses Remix Icons (https://remixicon.com/) hosted on their Github.  
 
 ## QNA:
-### Make it work for other people who don't have it installed.
-There have been requests for ScratchFormat to work for people who do  
+```
+That's a very good idea, but sadly, if I write for instance something in red (the word "test"), 
+I see it red, but me alone (or the other user of this addons), other people see "[color=red]Test[/color] " . 
+So it makes this addons not useful at all. Please fix it, as the starting idea was good.
+--
+It works, but only for people who have install this extension ...
+--
+Only people who have this extension installed can see the text. Other will see all those tags!
+```
+
+There have been many requests for ScratchFormat to work for people who do  
 not have the extension installed. If you think about it, this is obviously  
 impossible, there is nothing I can do about it.  
 
-## NOTE:
-There have been requests for ScratchFormat to work for people who do  
-not have the extension installed. This is obviously impossible, there  
-is nothing I can do about different users.
+Yes, there are UTF-8 "fonts" out there, and you can technically translate to them,  
+but it is way too impractical and complex for a simple chat.  
+
+And with the color tag, it is simply a toy. Where would it be practical? The real use  
+is with bold, italics, and maybe code. Everything else is extra.  
+
+As a side note:  
+SFCode is the original formatting system, made in 2017. Since it is complex  
+and hard to read for people who don't have the extension, Markdown support was  
+added, but support for SFCode is maintained.
