@@ -228,7 +228,7 @@ sf.format = function() {
 		for (var i = 0; i < comments[c].childNodes.length; i++) {
 			if (comments[c].childNodes[i].nodeName == "#text") {
 				var p = document.createElement("span");
-				p.innerHTML = " " + sf.parse(comments[c].childNodes[i].data);
+				p.innerHTML = " " + sf.parse(comments[c].childNodes[i].data) + " ";
 				comments[c].childNodes[i].replaceWith(p);
 			}
 		}
@@ -236,6 +236,9 @@ sf.format = function() {
 }
 
 sf.parseMD = function(text) {
+	// Allow asterisks in code block
+	text = text.replace(/[`].+[`]/gm, function(x) {return x.replace(/\*/gm, "&ast;")});
+
 	text = text.replace(/```((.|\n*)*?)```/gm, "<code>$1</code>");
 	text = text.replace(/`(.*?)`/g, "<code>$1</code>");
 	
@@ -244,7 +247,7 @@ sf.parseMD = function(text) {
 	text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
 
 	// Don't format links that already have a tag with them
-	// Sorry, I cheated with both Stackoverflow :\
+	// Sorry, I cheated with Stackoverflow :\
 	// https://stackoverflow.com/a/8943487
 	text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, "<a href='$1'>$1</a>");
 
