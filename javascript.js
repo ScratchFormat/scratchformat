@@ -228,15 +228,17 @@ sf.format = function() {
 }
 
 sf.parseMD = function(text) {
+	text = text.replace(/```((.|\n*)*?)```/gm, "<code>$1</code>");
+	text = text.replace(/`(.*?)`/g, "<code>$1</code>");
+	
 	// Bold, then italics
 	text = text.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 	text = text.replace(/\*(.*?)\*/g, "<i>$1</i>");
 
-	text = text.replace(/```((.|\n*)*?)```/gm, "<code>$1</code>");
-	text = text.replace(/`(.*?)`/g, "<code>$1</code>");
-
 	// Don't format links that already have a tag with them
-	text = text.replace(/(https:|http:|www\.)([^\"\>\<]*$)/gm, "<a href='$1$2'>$1$2</a>");
+	// Sorry, I cheated with both Stackoverflow :\
+	// https://stackoverflow.com/a/8943487
+	text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, "<a href='$1'>$1</a>");
 
 	return text;
 }
