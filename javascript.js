@@ -54,11 +54,10 @@ sf.tags = [
 	{
 		"name": "color",
 		"tag": "color",
+		"sensitive": true, // Prevent exploits
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Design/paint-brush-line.svg",
 		"fillers": ["[color=red]", "[/color]"],
 		"formatter": function(part1, part2) {
-			part1 = part1.replace(/[^a-zA-Z0-9\#\(\)\,]/g, ""); // Strip chars for security
-			console.log(part1);
 			return "<span style='color:" + part1 + "'>" + part2 + "</span>";
 		}
 	},
@@ -252,8 +251,8 @@ sf.parse = function(text) {
 	// Note that the new scratchformat standard is [],
 	// and the () is outdated, and a bit harder to type.
 	// But, we will detect both for historical reasons
-	var startBracket = "[\\(|\\[]";
-	var endBracket = "[\\)|\\]]";
+	let startBracket = "[\\(|\\[]";
+	let endBracket = "[\\)|\\]]";
 
 	for (var t = 0; t < sf.tags.length; t++) {
 		if (sf.tags[t].ignore) {
@@ -264,10 +263,15 @@ sf.parse = function(text) {
 		var regex = "";
 		regex += startBracket;
 		regex += sf.tags[t].tag;
-		regex += "[=]*([^\\]\\[\\)\\(]*)";
+		if (sf.tags[t].sensitive) {
+			regex += "[=]*([a-zA-Z0-9\#\(\)\,]*)";
+		} else {
+			regex += "[=]*([^\\]\\[\\)\\(]*)";
+		}
+		
 		regex += endBracket;
 
-		// If just 1 tag (Ex [br])
+		// If just 1 tag (Ex [easteregg])
 		if (sf.tags[t].fillers.length > 1) {
 			// Lazy matching (?)
 			// Since we can't use the s flag in Firefox,
