@@ -223,7 +223,15 @@ sf.format = function() {
 			comments[c].style.marginLeft = "3px";
 		}
 
-		comments[c].innerHTML = sf.parse(comments[c].innerHTML);
+		// Go through all the text child nodes and replace them with a span
+		// element.
+		for (var i = 0; i < comments[c].childNodes.length; i++) {
+			if (comments[c].childNodes[i].nodeName == "#text") {
+				var p = document.createElement("span");
+				p.innerHTML = " " + sf.parse(comments[c].childNodes[i].data);
+				comments[c].childNodes[i].replaceWith(p);
+			}
+		}
 	}
 }
 
