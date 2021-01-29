@@ -298,6 +298,8 @@ sf.parse = function(text) {
 			regex += endBracket;
 		}
 
+		console.log(regex);
+
 		regex = new RegExp(regex, "gm");
 		text = text.replace(regex, sf.tags[t].formatter("$1", "$2"));
 	}
