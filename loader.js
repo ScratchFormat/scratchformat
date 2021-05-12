@@ -1,5 +1,5 @@
 // Loads javascript onto page
-var scripts = ["smod.js", "javascript.js"];
+var scripts = ["smod.js", "javascript.js", "html.js"];
 
 for (var s = 0; s < scripts.length; s++) {
 	var script = document.createElement("script");

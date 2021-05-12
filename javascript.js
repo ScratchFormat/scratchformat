@@ -127,7 +127,7 @@ sf.init = function() {
 				// Popup message HTML got a bit out of hand here
 				smod.dialogText({
 					title: "ScratchFormat Help",
-					text: `<a href="https://github.com/ScratchFormat/ScratchFormat2/issues" style="color: #12b1e4;">Report issues at our Github</a> If you do not own a Github account, simply comment on my profile <a href="https://scratch.mit.edu/users/pufflegamerz/" style="color: #12b1e4;">@pufflegamerz</a>`
+					text: helpMsg
 				});
 			});
 
@@ -199,7 +199,12 @@ setTimeout(function() {
 		sf.init();
 	} else {
 		for (var i = 0; i < messages.length; i++) {
-			messages[i].innerHTML = sf.parse(messages[i].innerHTML);
+			// Clean comment before sending it to parser
+			var comment = messages[i].innerText;
+			comment = comment.replace(/\</g, "&lt;");
+			comment = comment.replace(/\>/g, "&gt;");
+
+			messages[i].innerHTML = sf.parse(comment);
 		}
 	}
 }, 500);
@@ -228,7 +233,11 @@ sf.format = function() {
 		for (var i = 0; i < comments[c].childNodes.length; i++) {
 			if (comments[c].childNodes[i].nodeName == "#text") {
 				var p = document.createElement("span");
-				p.innerHTML = " " + sf.parse(comments[c].childNodes[i].data) + " ";
+
+				var comment = comments[c].childNodes[i].data
+				comment = comment.replace(/\</g, "&lt;");
+				comment = comment.replace(/\>/g, "&gt;");
+				p.innerHTML = " " + sf.parse(comment) + " ";
 				comments[c].childNodes[i].replaceWith(p);
 			}
 		}
@@ -250,7 +259,6 @@ sf.parseMD = function(text) {
 	// Sorry, I cheated with Stackoverflow :\
 	// https://stackoverflow.com/a/8943487
 	text = text.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig, "<a href='$1'>$1</a>");
-
 	return text;
 }
 
@@ -297,8 +305,6 @@ sf.parse = function(text) {
 			regex += sf.tags[t].tag;
 			regex += endBracket;
 		}
-
-		console.log(regex);
 
 		regex = new RegExp(regex, "gm");
 		text = text.replace(regex, sf.tags[t].formatter("$1", "$2"));
