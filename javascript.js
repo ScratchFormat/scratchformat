@@ -1,3 +1,25 @@
+if (sf == undefined) {
+	// Simply a .5 second timer after page load. JS onload doesn't seem
+	// to work very well here.
+	setTimeout(function() {
+		var messages = document.getElementsByClassName("comment-text");
+		if (messages.length == 0) {
+			sf.init();
+		} else {
+			for (var i = 0; i < messages.length; i++) {
+				// Clean comment before sending it to parser
+				var comment = messages[i].innerText;
+				comment = comment.replace(/\</g, "&lt;");
+				comment = comment.replace(/\>/g, "&gt;");
+	
+				messages[i].innerHTML = sf.parse(comment);
+			}
+		}
+	}, 500);
+} else {
+	console.log("ScratchFormat loaded more than once, quitting")
+}
+
 // The initial SF app object
 // Create the initial formatter element
 var sf = {
@@ -190,24 +212,6 @@ sf.init = function() {
 		sf.format();
 	}, 300);
 }
-
-// Simply a .5 second timer after page load. JS onload doesn't seem
-// to work very well here.
-setTimeout(function() {
-	var messages = document.getElementsByClassName("comment-text");
-	if (messages.length == 0) {
-		sf.init();
-	} else {
-		for (var i = 0; i < messages.length; i++) {
-			// Clean comment before sending it to parser
-			var comment = messages[i].innerText;
-			comment = comment.replace(/\</g, "&lt;");
-			comment = comment.replace(/\>/g, "&gt;");
-
-			messages[i].innerHTML = sf.parse(comment);
-		}
-	}
-}, 500);
 
 // Function to format comments that are not already
 // formatted
