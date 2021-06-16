@@ -316,7 +316,6 @@ sf.parse = function(text) {
 
 	// Format trailing breaklines and spaces
 	text = text.replace(/^(\n| )+/gm, "");
-	console.log(text);
 	text = text.trim("\n"); // Trim last newlines
 
 	text = sf.parseMD(text);
