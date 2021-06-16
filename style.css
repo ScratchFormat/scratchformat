@@ -11,13 +11,25 @@
 	height: 24px;
 }
 
+.sfcode {
+	display: block;
+	border: 1px solid black;
+	width: auto;
+	background: lightgray;
+
+	/* Even out beginning newline after ``` */
+	padding-bottom: 20px;
+}
+
 /* Formatter icons */
 #formatter img {
 	height: 24px;
 }
+
 #formatter img:hover {
 	background-color: #e6e6e6;
 }
+
 #formatter img:active {
 	background-color: #c9c9c9;
 }

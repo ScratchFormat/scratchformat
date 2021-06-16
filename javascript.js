@@ -39,7 +39,7 @@ sf.tags = [
 		"src": "https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/icons/Editor/code-view.svg",
 		"fillers": ["`", "`"],
 		"formatter": function(part1, part2) {
-			return "<code>" + part2 + "</code>";
+			return "<code class='sfcode'>" + part2 + "</code>";
 		}
 	},
 	{
@@ -248,7 +248,7 @@ sf.parseMD = function(text) {
 	// Allow asterisks in code block
 	text = text.replace(/[`].+[`]/gm, function(x) {return x.replace(/\*/gm, "&ast;")});
 
-	text = text.replace(/```((.|\n*)*?)```/gm, "<code>$1</code>");
+	text = text.replace(/```((.|\n*)*?)```/gm, "<code class='sfcode'>$1</code>");
 	text = text.replace(/`(.*?)`/g, "<code>$1</code>");
 	
 	// Bold, then italics
@@ -312,6 +312,7 @@ sf.parse = function(text) {
 
 	// Format trailing breaklines and spaces
 	text = text.replace(/^(\n| )+/gm, "");
+	console.log(text);
 	text = text.trim("\n"); // Trim last newlines
 
 	text = sf.parseMD(text);
