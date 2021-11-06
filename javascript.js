@@ -322,29 +322,3 @@ sf.parse = function(text) {
 
 	return text;
 }
-
-var controlGroup = document.getElementsByClassName("control-group");
-document.controlGroup.innerHTML += '<div class="dropdown">   <button onclick="myFunction()" class="dropbtn">😀</button>   <div id="myDropdown" class="dropdown-content">     <a onclick="pasteEmoji('_:D_')"><img src="https://cdn.scratch.mit.edu/scratchr2/static/__fd54d8440ae146e24183f3a920f85c36__/images/easter_eggs/aww-cat.png" width="25px"></a>     <a onclick="pasteEmoji('_:P_')"><img src="https://cdn.scratch.mit.edu/scratchr2/static/__9e4044de46c7852aec750b6571cceb92__/images/easter_eggs/lol-cat.png" width="25px"></a>     <a onclick="pasteEmoji('_<3_')"><img src="https://cdn.scratch.mit.edu/scratchr2/static/__9e4044de46c7852aec750b6571cceb92__/images/easter_eggs/love-it-cat.png" width="25px"></a>     <br>     <button onclick="myFunction()"  class="dropbtn b">Help</button>   </div> </div> <textarea id="box"></textarea>'
-document.controlGroup.style = ".dropbtn {   background-color: #3498DB;   color: white;   padding: 16px;   font-size: 16px;   border: none;   cursor: pointer; }  .dropbtn {  box-shadow:inset 0px 1px 0px 0px #54a3f7;  background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);  background-color:#007dc1;  border-radius:5px;  border:1px solid #124d77;  display:inline-block;  cursor:pointer;  color:#ffffff;  font-family:Arial;  font-size:17px;  padding:10px 10px;  text-decoration:none;  text-shadow:1px 1px 0px #154682; } .dropbtn:hover .dropbtn:hover {  background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);  background-color:#0061a7; } .dropbtn:active {  position:relative;  top:1px; } .dropbtn.b{ padding:7px 10px; width:100%;}            .dropdown {   position: relative;   display: inline-block; }  .dropdown-content {   display: none;   position: absolute;   background-color: white;   min-width: 160px;   overflow: auto;   box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.2);   z-index: 1;   border-radius:5px;   border:#d1d1d1 solid 1px;   padding:5px; }  .dropdown-content a {   cursor:pointer;   color: black;   padding: 0px;   width:30px;   height:27px;   padding-top:3px;   text-align:center;   text-decoration: none;   display: inline-block;    }  .dropdown a:hover {background-color: #ebebeb;}  .show {display: block;}"
-
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
-function pasteEmoji(emoji){
-document.getElementById('box').value += emoji;
-}
