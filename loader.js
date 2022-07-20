@@ -1,9 +1,9 @@
-// Loads javascript onto page
-var scripts = ["smod.js", "javascript.js", "html.js"];
-
-for (var s = 0; s < scripts.length; s++) {
-	var script = document.createElement("script");
-	script.src = chrome.extension.getURL(scripts[s]);
-
-	document.head.appendChild(script);
-}
+var div = document.createElement('div')
+div.className = 'scratchformat banner'
+div.style.backgroundColor = '#FF661A'
+div.innerHTML = `
+        <div class="container">
+          <span style="width: 90vw;">ScratchFormat is no longer being maintained. It is now part of a larger extension for Scratch called <a href="https://tools.scratchstatus.org/">ScratchTools</a>, please install to continue with ScratchFormat.</span>
+        </div>
+`
+document.querySelector('div#pagewrapper').insertBefore(div, document.querySelector('div.email-outage.banner'))
