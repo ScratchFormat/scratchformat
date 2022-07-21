@@ -1,13 +1,13 @@
-# Looking for new maintainer
-As of November 2021, I am no longer maintaining ScratchFormat. I have no motivation  
-to work on it as I do not use Scratch anymore. If you want to continue my work, please  
-send me an email at brikbusters@gmail.com.
+# ScratchFormat
+As of November 2021, ScratchFormat has become a part of ScratchTools. ScratchTools
+is an extension with more features, and will be maintaining ScratchFormat very well
+and will be paying a lot of attention to the amazing functionality ScratchFormat
+has to offer. If you already have ScratchFormat installed, you should uninstall and
+install [ScratchTools](https://tools.scratchstatus.org).
 
 ---
 
 # ScratchFormat
-Chrome/Chromium: https://chrome.google.com/webstore/detail/scratchformat/fklhbhcbpnkiifblkhoioddoadlknecl  
-Firefox: https://addons.mozilla.org/en-US/firefox/addon/scratchformat/
 
 ScratchFormat is a browser extension created in 2017 to make Scratch comments  
 a little bit less boring. The current version includes Markdown formatting,  
